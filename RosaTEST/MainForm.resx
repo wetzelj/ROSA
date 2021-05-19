@@ -68,4 +68,14 @@
         HUFS2uN6BMlpLhwfFKa7Mn+ELHsDI/zzwJVdaPsAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="pictureBox4.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAADhJREFUSEvt
+        0CESADAQwkD+/+nWxOEOJGuZiUAzXa+EnGOPkZsDLoyRc+wxcnPAhTFyjj1GbqZC+g+DrmBQuKOTAAAA
+        AElFTkSuQmCC
+</value>
+  </data>
+  <metadata name="Column1.UserAddedColumn" type="System.Boolean, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>True</value>
+  </metadata>
 </root>

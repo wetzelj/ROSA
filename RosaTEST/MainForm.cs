@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -113,6 +114,36 @@ namespace RosaTEST
 			frmMenuPosition = new Point(workingArea.Right - 240,
 									  workingArea.Bottom - (Size.Height + 250));//170 menuform + mainform.height
 			WinAPI.UseImmersiveDarkMode(this.Handle, true);
+
+			var dt = new DataTable();
+			dt.Columns.Add("Notifications");
+			for (int j = 0; j < 2; j++)
+			{
+				dt.Rows.Add("");
+			}
+			this.dataGridView1.DataSource = dt;
+			this.dataGridView1.Columns[0].Width = 218;
+			this.dataGridView1.RowTemplate.Height = 80;
+
+			DataGridViewCellStyle style = new DataGridViewCellStyle();
+			style.BackColor = Color.FromArgb(73, 84, 96);
+			style.ForeColor = Color.White;
+
+			var TextBoxCell1 = new DataGridViewTextBoxCell();
+			TextBoxCell1.Style = style;
+			this.dataGridView1[0, 0] = TextBoxCell1;
+			this.dataGridView1[0, 0].Value = "Accession Number was detected on the clipboard.";
+
+			DataGridViewCellStyle style2 = new DataGridViewCellStyle();
+			style2.BackColor = Color.FromArgb(73, 84, 96);
+			style2.ForeColor = Color.White;
+			style2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+			var TextBoxCell2 = new DataGridViewButtonCell();
+			TextBoxCell2.Style = style2;
+			this.dataGridView1[0, 1] = TextBoxCell2;
+			this.dataGridView1[0, 1].Value = "Get Prior Studies";
+			
 		}
 
 		private void MainForm_Shown(object sender, EventArgs e)
@@ -139,7 +170,7 @@ namespace RosaTEST
 
 		private void btnClose_Click(object sender, EventArgs e)
 		{
-			this.Close();
+			Application.Exit();
 		}
 
 		private void btnClipMon_Click(object sender, EventArgs e)
@@ -617,10 +648,67 @@ namespace RosaTEST
 
         private void button1_Click(object sender, EventArgs e)
         {
+			var widget = new ROSAWidget();
+			widget.Show();
+			
+			this.Hide();
+		}
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+			contextMenuStrip1.Show(Cursor.Position.X - 80, Cursor.Position.Y + 30);
+		}
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
 
         }
 
-        private void label3_Click(object sender, EventArgs e)
+		private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			switch (e.ClickedItem.Name)
+			{
+				case "exit":
+					Application.Exit();
+					break;
+
+				case "settings":
+					var mainForm = new MainForm();
+					mainForm.Show();
+					this.Hide();
+					break;
+
+				default:
+					break;
+			}
+		}
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
