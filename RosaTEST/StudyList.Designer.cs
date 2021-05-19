@@ -29,7 +29,7 @@ namespace RosaTEST
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StudyList));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,7 +42,7 @@ namespace RosaTEST
             this.StudyDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Modality = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnPACS = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnEMR = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -60,14 +60,14 @@ namespace RosaTEST
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.GridColor = System.Drawing.SystemColors.Window;
@@ -171,17 +171,18 @@ namespace RosaTEST
             this.btnPACS.UseVisualStyleBackColor = false;
             this.btnPACS.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button1
+            // btnEMR
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(228, 24);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(49, 41);
-            this.button1.TabIndex = 8;
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnEMR.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnEMR.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnEMR.BackgroundImage")));
+            this.btnEMR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnEMR.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnEMR.Location = new System.Drawing.Point(228, 24);
+            this.btnEMR.Name = "btnEMR";
+            this.btnEMR.Size = new System.Drawing.Size(49, 41);
+            this.btnEMR.TabIndex = 8;
+            this.btnEMR.UseVisualStyleBackColor = false;
+            this.btnEMR.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // groupBox1
             // 
@@ -203,7 +204,7 @@ namespace RosaTEST
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(525, 352);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnEMR);
             this.Controls.Add(this.btnPACS);
             this.Controls.Add(this.dataGridView1);
             this.Name = "StudyList";
@@ -228,7 +229,7 @@ namespace RosaTEST
         private System.Windows.Forms.DataGridViewTextBoxColumn StudyDesc;
         private System.Windows.Forms.DataGridViewTextBoxColumn Modality;
         private System.Windows.Forms.Button btnPACS;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnEMR;
         private System.Windows.Forms.GroupBox groupBox1;
     }
 }

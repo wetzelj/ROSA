@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -78,6 +79,20 @@ namespace RosaTEST
         private void button1_Click(object sender, EventArgs e)
         {
 
+            string strStudyID;
+            strStudyID = dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells[0].Value.ToString();
+            MessageBox.Show(String.Format("StudyID: {0}", strStudyID));
+            
+            //launch exam
+            ProcessStartInfo psInfo = new ProcessStartInfo { FileName = "https://hackathon.siim.org/vna/web-viewer/app/viewer.html?series=4dcf5369-ecd612a6-7a3063c8-97930113-7ec3903e", UseShellExecute = true };
+            Process.Start(psInfo);
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string strPatientID;
+            strPatientID = lblPatientID.Text;
+            MessageBox.Show(String.Format("PatientID: {0}", strPatientID));
         }
     }
 }
