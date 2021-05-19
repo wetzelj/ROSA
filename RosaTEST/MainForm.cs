@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ControlFinder;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -624,6 +625,14 @@ namespace RosaTEST
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+			var windownames = Finder.GetOpenWindowNames();
+			var handle = Finder.GetWindowHandle("IMPAX 6.7.0.5006");
+			Finder.TestingControls(handle);
+
+		}
     }
 
     public class WindowObjInfo
