@@ -25,11 +25,11 @@ namespace RosaTEST
 
 		static List<WindowObjInfo> wino = new List<WindowObjInfo>();
 
-		ROSAWidget frmActions;
+		ROSAWidget frmWidget;
 		Point frmMenuPosition;
 
 		ROSAEvent rEvent;
-
+				
 		public MainForm()
 		{
 			InitializeComponent();
@@ -110,21 +110,25 @@ namespace RosaTEST
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			frmActions = new ROSAWidget();
-			frmActions.StartPosition = FormStartPosition.Manual;
+			frmWidget = new ROSAWidget();
+			frmWidget.Owner = this;
+			frmWidget.MyParentForm = this;
+
+			frmWidget.StartPosition = FormStartPosition.Manual;
 
 			Rectangle workingArea = Screen.GetWorkingArea(this);
-			frmActions.Location = new Point(workingArea.Right - frmActions.Width,
-									  workingArea.Bottom - frmActions.Height);
+			frmWidget.Location = new Point(workingArea.Right - frmWidget.Width,
+									  workingArea.Bottom - frmWidget.Height);
 
-			frmActions.Owner = this;
-			frmActions.MyParentForm = this;
+			
 			//frmActions.Location = frmMenuPosition;
 
-			frmMenuPosition =new Point(workingArea.Right - (Size.Width + 120),			
-				workingArea.Bottom - (Size.Height + 120));//170 menuform + mainform.height
+			frmMenuPosition = new Point(workingArea.Right - Size.Width ,			
+				workingArea.Bottom - (Size.Height + 110));//170 menuform + mainform.height
+			this.Location = frmMenuPosition;
 
-			WinAPI.UseImmersiveDarkMode(this.Handle, true);
+
+			//WinAPI.UseImmersiveDarkMode(this.Handle, true);
 
 			
 			/*
@@ -139,12 +143,13 @@ namespace RosaTEST
 			this.dataGridView1[0, 1].Value = "Get Prior Studies";
 			*/
 
-			//this.Visible = false;
-			frmActions.Show();
+			
+			frmWidget.Show();
 
 			btnClipMon_Click(null, null);
 
-			
+			//this.Visible = false;
+			//this.Hide();
 		}
 
 		private void MainForm_Shown(object sender, EventArgs e)
@@ -155,11 +160,10 @@ namespace RosaTEST
 			//cmbProcs.DisplayMember = "Description";
 			//cmbProcs.EndUpdate();
 
-
-			//this.Visible = false;
+			this.Hide();
+			this.Visible = false;
 			//frmActions.Show();
-
-
+			
 		}
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -241,46 +245,7 @@ namespace RosaTEST
 			btnTakeScreenshot.Enabled = (_impaxWh != IntPtr.Zero);
 		}
 
-		public void ContextMenuClicked(string actionName)
-		{
-			if (actionName == "ShowActionMenu")
-			{
-				this.Visible = true;
-				this.Show();
-
-				var dt = new DataTable();
-				dt.Columns.Add("Notifications");
-				for (int j = 0; j < 2; j++)//only have 3 placeholders for actions
-				{
-					dt.Rows.Add("");
-				}
-				this.dataGridView1.SuspendLayout();
-				this.dataGridView1.DataSource = dt;
-				this.dataGridView1.Columns[0].Width = 218;
-				this.dataGridView1.RowTemplate.Height = 80;
-
-				DataGridViewCellStyle style = new DataGridViewCellStyle();
-				style.BackColor = Color.FromArgb(73, 84, 96);
-				style.ForeColor = Color.White;
-
-				var TextBoxCell1 = new DataGridViewTextBoxCell();
-				TextBoxCell1.Style = style;
-				this.dataGridView1[0, 0] = TextBoxCell1;
-
-				if (!string.IsNullOrEmpty(rEvent.PatientID))
-					this.dataGridView1[0, 0].Value = "LOAD Pat STUDIES";
-
-				if (!string.IsNullOrEmpty(rEvent.StudyUID))
-					this.dataGridView1[0, 0].Value = "LOAD This Study";
-
-				this.AddNotification("GOOGLE My Clipboard");
-
-				this.dataGridView1.ResumeLayout();
-
-
-			}
-
-		}
+		
 
 		#endregion
 
@@ -389,7 +354,7 @@ namespace RosaTEST
 					if (isAcc)
 						rEvent.Accession = clipBoardText;
 
-					frmActions.ShowAlert();
+					frmWidget.ShowAlert();
 					//ShowMenuFrm(e);
 
 				}
@@ -457,9 +422,9 @@ namespace RosaTEST
 
 		private void ShowMenuFrm(ROSAEvent e)
 		{
-			frmActions.Text = e.Accession;
-			frmActions.Visible = true;
-			frmActions.Show();
+			frmWidget.Text = e.Accession;
+			frmWidget.Visible = true;
+			frmWidget.Show();
 			////this.Enabled = false;
 			//Task.Factory.StartNew(() =>
 			//{
@@ -700,7 +665,60 @@ namespace RosaTEST
         {
 			contextMenuStrip1.Show(Cursor.Position.X - 80, Cursor.Position.Y + 30);
 		}
+		public void ContextMenuClicked(string actionName)
+		{
+			if (actionName == "ShowActionMenu")
+			{
+				this.Visible = true;
+				this.Show();
 
+				var dt = new DataTable();
+				dt.Columns.Add("Notifications");
+				for (int j = 0; j < 2; j++)//only have 3 placeholders for actions
+				{
+					dt.Rows.Add("");
+				}
+				this.dataGridView1.SuspendLayout();
+				this.dataGridView1.DataSource = dt;
+				this.dataGridView1.Columns[0].Width = 218;
+				this.dataGridView1.RowTemplate.Height = 80;
+
+				DataGridViewCellStyle style = new DataGridViewCellStyle();
+				style.BackColor = Color.FromArgb(73, 84, 96);
+				style.ForeColor = Color.White;
+
+				var TextBoxCell1 = new DataGridViewTextBoxCell();
+				TextBoxCell1.Style = style;
+				this.dataGridView1[0, 0] = TextBoxCell1;
+
+				if (!string.IsNullOrEmpty(rEvent.PatientID))
+					this.dataGridView1[0, 0].Value = "LOAD PATIENT STUDIES";
+
+				if (!string.IsNullOrEmpty(rEvent.StudyUID))
+					this.dataGridView1[0, 0].Value = "LOAD THIS STUDY";
+
+				this.AddNotification("GOOGLE My Clipboard");
+
+				this.dataGridView1.ResumeLayout();
+
+
+			}
+
+			switch (actionName)
+			{
+				case "menuItemExit":
+					Application.Exit();
+					break;
+
+				case "menuItemOpenROSAMenu":
+					this.Show();
+					
+					break;
+
+				default:
+					break;
+			}
+		}
 		private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
 			switch (e.ClickedItem.Name)
@@ -720,16 +738,30 @@ namespace RosaTEST
 			}
 		}
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
 			var cellValue = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
 			//RemoveNotification(e.RowIndex);
+			if (cellValue.StartsWith("LOAD "))
+			{
+				var frmList = new StudyList();
+				frmList.SetCurrentContext(rEvent);
+				frmList.Show();
+				frmList.RenderLoadedData();
+			}
 
-			var frmList = new StudyList();
-			frmList.SetCurrentContext(rEvent);
-			frmList.Show();
-			
-			frmList.RenderLoadedData();
+			if (cellValue.StartsWith("GOOGLE "))
+			{
+				var googleQryTerm = rEvent.PatientID ?? "";
+				googleQryTerm = rEvent.StudyUID ?? googleQryTerm;
+				//launch exam
+				ProcessStartInfo psInfo = new ProcessStartInfo { 
+					FileName = $"https://www.google.com/search?q={googleQryTerm}", 
+					UseShellExecute = true 
+				};
+				Process.Start(psInfo);
+			}
+
 		}
 
 		public void AddNotification(string NotificationText)
@@ -765,7 +797,17 @@ namespace RosaTEST
 				dataGridView1.Show();
             }
         }
-    }
+
+		private void button1_MouseEnter(object sender, EventArgs e)
+		{
+			button1.BackColor = Color.DodgerBlue;
+		}
+
+		private void button1_MouseLeave(object sender, EventArgs e)
+		{
+			button1.BackColor = Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(77)))), ((int)(((byte)(86)))));
+		}
+	}
 
 	public class WindowObjInfo
 	{
