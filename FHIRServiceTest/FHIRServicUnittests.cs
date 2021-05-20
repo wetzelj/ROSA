@@ -1,6 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FHIRService.Application.Helpers;
-using FHIRService.Application.Models;
 using FHIRService.Application.Services.FHIR;
 using System.Linq;
 

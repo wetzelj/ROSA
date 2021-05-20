@@ -31,8 +31,8 @@ namespace RosaTEST
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.label1 = new System.Windows.Forms.Label();
 			this.btnEnuWins = new System.Windows.Forms.Button();
 			this.btnClipMon = new System.Windows.Forms.Button();
@@ -154,13 +154,16 @@ namespace RosaTEST
 			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.button1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
 			this.button1.ForeColor = System.Drawing.Color.Transparent;
-			this.button1.Location = new System.Drawing.Point(-1, 88);
+			this.button1.Location = new System.Drawing.Point(3, 4);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(17, 70);
+			this.button1.Size = new System.Drawing.Size(45, 31);
 			this.button1.TabIndex = 12;
-			this.button1.Text = ">";
+			this.button1.Text = "v";
+			this.button1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.button1.UseVisualStyleBackColor = false;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.button1.MouseEnter += new System.EventHandler(this.button1_MouseEnter);
+			this.button1.MouseLeave += new System.EventHandler(this.button1_MouseLeave);
 			// 
 			// pictureBox2
 			// 
@@ -238,14 +241,14 @@ namespace RosaTEST
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
 			this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Hand;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowFrame;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowFrame;
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
 			this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
 			this.dataGridView1.GridColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.dataGridView1.Location = new System.Drawing.Point(22, 49);
@@ -255,10 +258,10 @@ namespace RosaTEST
 			this.dataGridView1.ReadOnly = true;
 			this.dataGridView1.RowHeadersVisible = false;
 			this.dataGridView1.RowHeadersWidth = 40;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(84)))), ((int)(((byte)(96)))));
-			this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(84)))), ((int)(((byte)(96)))));
+			this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle4;
 			this.dataGridView1.RowTemplate.Height = 50;
 			this.dataGridView1.RowTemplate.ReadOnly = true;
 			this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -281,7 +284,7 @@ namespace RosaTEST
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(41)))), ((int)(((byte)(46)))));
-			this.ClientSize = new System.Drawing.Size(263, 246);
+			this.ClientSize = new System.Drawing.Size(263, 250);
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.pictureBox4);
 			this.Controls.Add(this.label2);
@@ -300,7 +303,7 @@ namespace RosaTEST
 			this.ForeColor = System.Drawing.SystemColors.WindowFrame;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "MainForm";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "ROSA";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 			this.Load += new System.EventHandler(this.Form1_Load);

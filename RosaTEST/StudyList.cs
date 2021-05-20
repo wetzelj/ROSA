@@ -15,6 +15,9 @@ namespace RosaTEST
         public static string PatientID = "siimneela";
 
         public StudyList([Optional] string[] args)
+        ROSAEvent _ctx;
+
+        public StudyList()
         {
             if (args != null)
             {
@@ -39,6 +42,11 @@ namespace RosaTEST
             lblPatientDOB.Text = pat.BirthDate.ToString();
         }
 
+
+        public void SetCurrentContext(ROSAEvent e)
+        {
+            _ctx = e;
+        }
 
         public void RenderLoadedData(DataTable dataFromFHIR = null)
         {
