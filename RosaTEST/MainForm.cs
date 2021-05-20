@@ -675,6 +675,10 @@ namespace RosaTEST
         {
 			var cellValue = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
 			RemoveNotification(e.RowIndex);
+			var frmList = new StudyList();
+			frmList.Visible = false;
+			frmList.RenderLoadedData();
+			frmList.Show();
         }
 
 		public void AddNotification(string NotificationText)

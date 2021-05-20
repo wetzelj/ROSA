@@ -16,8 +16,13 @@ namespace RosaTEST
         public StudyList()
         {
             InitializeComponent();
+          
+        }
+
+        private void StudyList_Load(object sender, EventArgs e)
+        {
             PatientInfo_Load();
-            StudyList_Load();
+            //LoadFakeStudyList();
         }
 
         private void PatientInfo_Load()
@@ -28,8 +33,15 @@ namespace RosaTEST
         }
 
 
-        private void StudyList_Load()
+        public void RenderLoadedData(DataTable dataFromFHIR = null)
         {
+            LoadFakeStudyList();
+        }
+
+        private void LoadFakeStudyList()
+        {
+                     
+
             List<string[]> list = new List<string[]>();
             //list.Add(new string[] { "StudyID", "StudyDescription", "Modality", "StudyDate" });
             list.Add(new string[] { "a123456789", "XR Chest", "XR", "2021-05-01" });
@@ -94,5 +106,7 @@ namespace RosaTEST
             strPatientID = lblPatientID.Text;
             MessageBox.Show(String.Format("PatientID: {0}", strPatientID));
         }
-    }
+
+		
+	}
 }
