@@ -9,6 +9,16 @@ using HWND = System.IntPtr;
 
 namespace ControlFinder
 {
+	//public class WindowPointer
+ //   {
+	//	string WindowName;
+	//	IntPtr WindowPointer;
+	//	List<WindowPointer> ChildWindows;
+
+ //   }
+
+
+
     public static class Finder
     {
         //public static List<string> GetWindows()
@@ -73,6 +83,18 @@ namespace ControlFinder
             return returnpointer;
         }
 
+		//public static WindowPointer GetWindowChildren(HWND pointer)
+  //      {
+
+  //      }
+
+		//public static void ChangeBackgroundColor(HWND pointer)
+  //      {
+		//	///ChangeBackgroundColor of whatever element was passed in. 
+  //      }
+
+
+
         public static void TestingControls(HWND pointer)
         {
 
@@ -86,57 +108,72 @@ namespace ControlFinder
         public static List<IntPtr> GetAllChildrenWindowHandles(IntPtr hParent, int maxCount, int level)
         {
 
-			StringBuilder window = new StringBuilder();
-			int length = GetWindowTextLength(hParent);
-            if (length > 0)
-            {                
-                GetWindowText(hParent, window, length + 1);
-            }
 
-			int textlength = (int)SendMessage(hParent, (int)Msgs.WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero);
-			StringBuilder value = new StringBuilder(textlength + 1);
-			if (textlength > 0)
+
+			IntPtr prevChild = IntPtr.Zero;
+			IntPtr currChild = IntPtr.Zero;
+			while (true)
             {
-				SendMessage(hParent, (int)Msgs.WM_GETTEXT, (IntPtr)value.Capacity, value);
+				StringBuilder window = new StringBuilder();
+				int length = GetWindowTextLength(hParent);
+				if (length > 0)
+				{
+					GetWindowText(hParent, window, length + 1);
+				}
+
+				int textlength = (int)SendMessage(hParent, (int)Msgs.WM_GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero);
+				StringBuilder value = new StringBuilder(textlength + 1);
+				if (textlength > 0)
+				{
+					SendMessage(hParent, (int)Msgs.WM_GETTEXT, (IntPtr)value.Capacity, value);
+				}
+				Debug.WriteLine(String.Format("{0} - Window: {1} - Value: {2}", level.ToString(), window.ToString(), value.ToString()));
+
+
+				currChild = FindWindowEx(hParent, prevChild, null, null);
+				if (currChild == IntPtr.Zero) break;
+
+
+				GetAllChildrenWindowHandles(currChild, 1000, level++);
+				prevChild = currChild;
+
+				
+
 			}
-			Debug.WriteLine(String.Format("{0} - Window: {1} - Value: {2}", level.ToString(), window.ToString(), value.ToString()));
-			
 
 
 
 
 
+			//List<IntPtr> result = new List<IntPtr>();
+   //         int ct = 0;
+   //         string childClassWeNeed = "WindowsForms10.EDIT.app.0.";
+   //         IntPtr prevChild = IntPtr.Zero;
+   //         IntPtr currChild = IntPtr.Zero;
+   //         while (true && ct < maxCount)
+   //         {
+   //             currChild = FindWindowEx(hParent, prevChild, null, null);
+   //             if (currChild == IntPtr.Zero) break;
 
 
-			List<IntPtr> result = new List<IntPtr>();
-            int ct = 0;
-            string childClassWeNeed = "WindowsForms10.EDIT.app.0.";
-            IntPtr prevChild = IntPtr.Zero;
-            IntPtr currChild = IntPtr.Zero;
-            while (true && ct < maxCount)
-            {
-                currChild = FindWindowEx(hParent, prevChild, null, null);
-                if (currChild == IntPtr.Zero) break;
+   //             StringBuilder sb = new StringBuilder(1024);
+   //             GetClassName(currChild, sb, sb.Capacity);
 
+   //             string currClass = sb.ToString();
+   //             //Debug.WriteLine(currClass);
+   //             //if (currClass == childClassWeNeed)
+   //                 result.Add(currChild);
 
-                StringBuilder sb = new StringBuilder(1024);
-                GetClassName(currChild, sb, sb.Capacity);
+   //             //if (currClass.StartsWith("WindowsForms10.Window."))
+   //             //{
+   //                 result.AddRange(GetAllChildrenWindowHandles(currChild, 1000, level++));
+   //             //}
 
-                string currClass = sb.ToString();
-                //Debug.WriteLine(currClass);
-                //if (currClass == childClassWeNeed)
-                    result.Add(currChild);
+   //             prevChild = currChild;
 
-                //if (currClass.StartsWith("WindowsForms10.Window."))
-                //{
-                    result.AddRange(GetAllChildrenWindowHandles(currChild, 1000, level++));
-                //}
-
-                prevChild = currChild;
-
-                ++ct;
-            }
-            return result;
+   //             ++ct;
+   //         }
+            return null;
         }
 
 
