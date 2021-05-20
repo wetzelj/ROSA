@@ -12,31 +12,18 @@ namespace RosaTEST
 {
     public partial class StudyList : Form
     {
-        public static string PatientID = "siimneela";
-
-        public StudyList([Optional] string[] args)
         ROSAEvent _ctx;
 
         public StudyList()
-        {
-            if (args != null)
-            {
-                PatientID = args[0];
-            }            
+        {                     
             InitializeComponent();          
-        }
-
-        private void StudyList_Load(object sender, EventArgs e)
-        {
-            PatientInfo_Load();
-            LoadStudyList();
         }
 
         private void PatientInfo_Load()
         {
             FHIRDataService svc = new FHIRDataService();
             Patient pat = new Patient();
-            pat = svc.GetPatientByID(PatientID);       //TODO: PatientID from ROSA widget
+            pat = svc.GetPatientByID(_ctx.PatientID);
             lblPatientID.Text = pat.Id;
             lblPatientName.Text = pat.Name[0].ToString();
             lblPatientDOB.Text = pat.BirthDate.ToString();
@@ -48,8 +35,9 @@ namespace RosaTEST
             _ctx = e;
         }
 
-        public void RenderLoadedData(DataTable dataFromFHIR = null)
+        public void RenderLoadedData()
         {
+            PatientInfo_Load();
             LoadStudyList();
         }
 
@@ -58,7 +46,7 @@ namespace RosaTEST
             FHIRDataService svc = new FHIRDataService();
             List<string[]> list = new List<string[]>();
 
-            var studies = svc.GetImagingStudiesByPatientID(PatientID);    //TODO: PatientID here too
+            var studies = svc.GetImagingStudiesByPatientID(_ctx.PatientID);
 
             foreach (var study in studies)
             {
@@ -118,13 +106,8 @@ namespace RosaTEST
         {
             string strStudyID;
 
-
-            //study.Series.FirstOrDefault().Uid.ToString();
-
             strStudyID = dataGridView1.Rows[dataGridView1.CurrentRow.Index].Cells[0].Value.ToString();
-            //MessageBox.Show(String.Format("StudyID: {0}", strStudyID));
 
-            //launch exam
             ProcessStartInfo psInfo = new ProcessStartInfo
             {
                 FileName = String.Format("https://hackathon.siim.org/vna/stone-webviewer/index.html?study={0}",
@@ -139,7 +122,6 @@ namespace RosaTEST
         {
             string strPatientID;
             strPatientID = lblPatientID.Text;
-            //MessageBox.Show(String.Format("PatientID: {0}", strPatientID));
         }
     }
 }
