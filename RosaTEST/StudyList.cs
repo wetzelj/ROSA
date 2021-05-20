@@ -22,7 +22,7 @@ namespace RosaTEST
         private void StudyList_Load(object sender, EventArgs e)
         {
             PatientInfo_Load();
-            //LoadFakeStudyList();
+            LoadFakeStudyList();
         }
 
         private void PatientInfo_Load()
@@ -55,10 +55,11 @@ namespace RosaTEST
             table.Columns[3].ColumnName = "Study Date";
             //table.Columns[DataGridViewColumn[1]].ColumnName = "Study ID";
             dataGridView1.DataSource = table;
-            dataGridView1.Columns[0].MinimumWidth = 100;
-            dataGridView1.Columns[1].MinimumWidth = 150;
-            dataGridView1.Columns[2].MinimumWidth = 100;
-            dataGridView1.Columns[3].MinimumWidth = 100;
+            
+            dataGridView1.Columns[0].MinimumWidth = 125;
+            dataGridView1.Columns[1].MinimumWidth = 180;
+            dataGridView1.Columns[2].MinimumWidth = 80;
+            dataGridView1.Columns[3].MinimumWidth = 125;
 
         }
 
@@ -106,7 +107,5 @@ namespace RosaTEST
             strPatientID = lblPatientID.Text;
             MessageBox.Show(String.Format("PatientID: {0}", strPatientID));
         }
-
-		
-	}
+    }
 }
