@@ -10,7 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <Compile Remove="Application\AutoMapper\**" />
+    <Compile Remove="Application\Models\**" />
+    <EmbeddedResource Remove="Application\AutoMapper\**" />
+    <EmbeddedResource Remove="Application\Models\**" />
+    <None Remove="Application\AutoMapper\**" />
+    <None Remove="Application\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Hl7.Fhir.R4" Version="3.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RestSharp" Version="106.11.7" />
