@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -113,6 +114,39 @@ namespace RosaTEST
 			frmMenuPosition = new Point(workingArea.Right - 240,
 									  workingArea.Bottom - (Size.Height + 250));//170 menuform + mainform.height
 			WinAPI.UseImmersiveDarkMode(this.Handle, true);
+
+			var dt = new DataTable();
+			dt.Columns.Add("Notifications");
+			for (int j = 0; j < 2; j++)
+			{
+				dt.Rows.Add("");
+			}
+			this.dataGridView1.DataSource = dt;
+			this.dataGridView1.Columns[0].Width = 218;
+			this.dataGridView1.RowTemplate.Height = 80;
+
+			DataGridViewCellStyle style = new DataGridViewCellStyle();
+			style.BackColor = Color.FromArgb(73, 84, 96);
+			style.ForeColor = Color.White;
+
+			var TextBoxCell1 = new DataGridViewTextBoxCell();
+			TextBoxCell1.Style = style;
+			this.dataGridView1[0, 0] = TextBoxCell1;
+			this.dataGridView1[0, 0].Value = "Accession number was detected on the clipboard. [Get Prior Exams]";
+
+			this.AddNotification("Encore My Clipboard");
+
+			/*
+			DataGridViewCellStyle style2 = new DataGridViewCellStyle();
+			style2.BackColor = Color.FromArgb(73, 84, 96);
+			style2.ForeColor = Color.White;
+			style2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+			var TextBoxCell2 = new DataGridViewButtonCell();
+			TextBoxCell2.Style = style2;
+			this.dataGridView1[0, 1] = TextBoxCell2;
+			this.dataGridView1[0, 1].Value = "Get Prior Studies";
+			*/
 		}
 
 		private void MainForm_Shown(object sender, EventArgs e)
@@ -132,6 +166,7 @@ namespace RosaTEST
 			frmActions.Visible = false;
 			
 		}
+
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (IsClipMonON) { UnregisterClipboardViewer(); }
@@ -139,7 +174,7 @@ namespace RosaTEST
 
 		private void btnClose_Click(object sender, EventArgs e)
 		{
-			this.Close();
+			Application.Exit();
 		}
 
 		private void btnClipMon_Click(object sender, EventArgs e)
@@ -213,8 +248,6 @@ namespace RosaTEST
 
 		#endregion
 
-
-
 		private void btnEnuWins_Click(object sender, EventArgs e)
 		{
 			//ArrayList wins = GetWindows();
@@ -235,8 +268,6 @@ namespace RosaTEST
 			cmbProcs.DisplayMember = "Description";
 			cmbProcs.EndUpdate();
 		}
-
-
 
 		#region ClipMon
 
@@ -397,9 +428,6 @@ namespace RosaTEST
 			////}, TaskScheduler.FromCurrentSynchronizationContext());
 		}
 
-		
-
-
 		#region window-functions
 
 		public static IntPtr SearchForWindow(string wndclass, string title)
@@ -486,6 +514,7 @@ namespace RosaTEST
 			WinAPI.SendMessage(hwnd, (int)WinAPI.Msgs.WM_GETTEXT, (IntPtr)sb.Capacity, sb);
 			return sb.ToString();
 		}
+		
 		public static List<IntPtr> GetAllChildrenWindowHandles(IntPtr hParent, int maxCount)
 		{
 			List<IntPtr> result = new List<IntPtr>();
@@ -518,6 +547,7 @@ namespace RosaTEST
 			}
 			return result;
 		}
+		
 		#endregion
 
 		#region screenshot functions
@@ -607,12 +637,82 @@ namespace RosaTEST
 
 		}
 
-		#endregion
+        #endregion
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+			var widget = new ROSAWidget();
+			widget.Show();
+			
+			this.Hide();
+		}
 
-	}
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+			contextMenuStrip1.Show(Cursor.Position.X - 80, Cursor.Position.Y + 30);
+		}
 
-	public class WindowObjInfo
+		private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			switch (e.ClickedItem.Name)
+			{
+				case "exit":
+					Application.Exit();
+					break;
+
+				case "settings":
+					var mainForm = new MainForm();
+					mainForm.Show();
+					this.Hide();
+					break;
+
+				default:
+					break;
+			}
+		}
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+			var cellValue = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+			RemoveNotification(e.RowIndex);
+        }
+
+		public void AddNotification(string NotificationText)
+        {
+			DataGridViewCellStyle style = new DataGridViewCellStyle();
+			style.BackColor = Color.FromArgb(73, 84, 96);
+			style.ForeColor = Color.White;
+
+			var TextBoxCell1 = new DataGridViewTextBoxCell();
+			TextBoxCell1.Style = style;
+			this.dataGridView1[0, dataGridView1.Rows.Count - 1] = TextBoxCell1;
+			this.dataGridView1[0, dataGridView1.Rows.Count - 1].Value = NotificationText;
+
+			RefreshNotificationView();
+		}
+
+		public void RemoveNotification(int RowIndex)
+        {
+			dataGridView1.Rows.Remove(dataGridView1.Rows[RowIndex]);
+
+			RefreshNotificationView();
+
+		}
+
+		public void RefreshNotificationView()
+        {
+			if (dataGridView1.Rows.Count == 0)
+            {
+				dataGridView1.Hide();
+            }
+			else
+            {
+				dataGridView1.Show();
+            }
+        }
+    }
+
+    public class WindowObjInfo
 	{
 		public string Wndclass;
 		public string Title;
