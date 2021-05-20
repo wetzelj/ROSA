@@ -43,7 +43,7 @@ namespace RosaTEST
 			// 
 			this.pictureBoxROSA.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(41)))), ((int)(((byte)(46)))));
 			this.pictureBoxROSA.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxROSA.Image")));
-			this.pictureBoxROSA.Location = new System.Drawing.Point(32, 15);
+			this.pictureBoxROSA.Location = new System.Drawing.Point(10, 12);
 			this.pictureBoxROSA.Name = "pictureBoxROSA";
 			this.pictureBoxROSA.Size = new System.Drawing.Size(72, 72);
 			this.pictureBoxROSA.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -77,14 +77,14 @@ namespace RosaTEST
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(41)))), ((int)(((byte)(46)))));
-			this.ClientSize = new System.Drawing.Size(107, 103);
+			this.ClientSize = new System.Drawing.Size(94, 96);
 			this.ContextMenuStrip = this.contextMenuStrip1;
 			this.Controls.Add(this.pictureBoxROSA);
+			this.ForeColor = System.Drawing.Color.Black;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "ROSAWidget";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "ROSA";
-			this.TopMost = true;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ROSAWidget_FormClosing);
 			this.Shown += new System.EventHandler(this.ROSAWidget_Shown);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxROSA)).EndInit();

@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RosaTEST
 {
-    public partial class ROSAWidget : Form
+	public partial class ROSAWidget : Form
     {
         public MainForm MyParentForm;
         Color myDefaultColor;
@@ -26,16 +18,20 @@ namespace RosaTEST
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            if (this.BackColor == Color.LawnGreen )
+                MyParentForm.ContextMenuClicked("ShowActionMenu");
+            else
+                MyParentForm.ContextMenuClicked("OpenMainFormWithoutActions");
             //var mainForm = new MainForm();
             //mainForm.Show();
             //this.Hide();
             this.BackColor = this.myDefaultColor;
-            MyParentForm.ContextMenuClicked("ShowActionMenu");
+            
         }
 
         public void ShowAlert()
         {
-            this.BackColor = Color.Red; 
+            this.BackColor = Color.LawnGreen; 
         }
 
         private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -46,21 +42,7 @@ namespace RosaTEST
                 MyParentForm.ContextMenuClicked(e.ClickedItem.Name);
             }
             
-            //switch (e.ClickedItem.Name)
-            //{
-            //    case "menuItemExit":
-            //        Application.Exit();
-            //        break;
-
-            //    case "menuItemOpenROSAMenu":
-            //        var mainForm = new MainForm();
-            //        mainForm.Show();
-            //        this.Hide();
-            //        break;
-
-            //    default:
-            //        break;
-            //}
+            
         }
 
 
