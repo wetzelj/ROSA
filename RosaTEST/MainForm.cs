@@ -132,8 +132,11 @@ namespace RosaTEST
 			var TextBoxCell1 = new DataGridViewTextBoxCell();
 			TextBoxCell1.Style = style;
 			this.dataGridView1[0, 0] = TextBoxCell1;
-			this.dataGridView1[0, 0].Value = "Accession Number was detected on the clipboard.";
+			this.dataGridView1[0, 0].Value = "Accession number was detected on the clipboard. [Get Prior Exams]";
 
+			this.AddNotification("Encore My Clipboard");
+
+			/*
 			DataGridViewCellStyle style2 = new DataGridViewCellStyle();
 			style2.BackColor = Color.FromArgb(73, 84, 96);
 			style2.ForeColor = Color.White;
@@ -143,7 +146,7 @@ namespace RosaTEST
 			TextBoxCell2.Style = style2;
 			this.dataGridView1[0, 1] = TextBoxCell2;
 			this.dataGridView1[0, 1].Value = "Get Prior Studies";
-			
+			*/
 		}
 
 		private void MainForm_Shown(object sender, EventArgs e)
@@ -163,6 +166,7 @@ namespace RosaTEST
 			frmActions.Visible = false;
 			
 		}
+
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (IsClipMonON) { UnregisterClipboardViewer(); }
@@ -244,8 +248,6 @@ namespace RosaTEST
 
 		#endregion
 
-
-
 		private void btnEnuWins_Click(object sender, EventArgs e)
 		{
 			//ArrayList wins = GetWindows();
@@ -266,8 +268,6 @@ namespace RosaTEST
 			cmbProcs.DisplayMember = "Description";
 			cmbProcs.EndUpdate();
 		}
-
-
 
 		#region ClipMon
 
@@ -428,9 +428,6 @@ namespace RosaTEST
 			////}, TaskScheduler.FromCurrentSynchronizationContext());
 		}
 
-		
-
-
 		#region window-functions
 
 		public static IntPtr SearchForWindow(string wndclass, string title)
@@ -517,6 +514,7 @@ namespace RosaTEST
 			WinAPI.SendMessage(hwnd, (int)WinAPI.Msgs.WM_GETTEXT, (IntPtr)sb.Capacity, sb);
 			return sb.ToString();
 		}
+		
 		public static List<IntPtr> GetAllChildrenWindowHandles(IntPtr hParent, int maxCount)
 		{
 			List<IntPtr> result = new List<IntPtr>();
@@ -549,6 +547,7 @@ namespace RosaTEST
 			}
 			return result;
 		}
+		
 		#endregion
 
 		#region screenshot functions
@@ -638,13 +637,7 @@ namespace RosaTEST
 
 		}
 
-
         #endregion
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -658,11 +651,6 @@ namespace RosaTEST
         {
 			contextMenuStrip1.Show(Cursor.Position.X - 80, Cursor.Position.Y + 30);
 		}
-
-        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-        }
 
 		private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
@@ -683,34 +671,44 @@ namespace RosaTEST
 			}
 		}
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void richTextBox1_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+			var cellValue = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+			RemoveNotification(e.RowIndex);
+        }
 
+		public void AddNotification(string NotificationText)
+        {
+			DataGridViewCellStyle style = new DataGridViewCellStyle();
+			style.BackColor = Color.FromArgb(73, 84, 96);
+			style.ForeColor = Color.White;
+
+			var TextBoxCell1 = new DataGridViewTextBoxCell();
+			TextBoxCell1.Style = style;
+			this.dataGridView1[0, dataGridView1.Rows.Count - 1] = TextBoxCell1;
+			this.dataGridView1[0, dataGridView1.Rows.Count - 1].Value = NotificationText;
+
+			RefreshNotificationView();
+		}
+
+		public void RemoveNotification(int RowIndex)
+        {
+			dataGridView1.Rows.Remove(dataGridView1.Rows[RowIndex]);
+
+			RefreshNotificationView();
+
+		}
+
+		public void RefreshNotificationView()
+        {
+			if (dataGridView1.Rows.Count == 0)
+            {
+				dataGridView1.Hide();
+            }
+			else
+            {
+				dataGridView1.Show();
+            }
         }
     }
 

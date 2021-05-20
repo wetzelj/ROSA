@@ -28,20 +28,6 @@ namespace RosaTEST
             this.Hide();
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void ROSAWidget_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripMenuItemExit_Click(object send, EventArgs e)
-        {
-        }
-
         private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             switch (e.ClickedItem.Name)

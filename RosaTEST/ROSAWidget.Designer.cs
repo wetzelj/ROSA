@@ -43,7 +43,7 @@ namespace RosaTEST
             // 
             this.pictureBoxROSA.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(41)))), ((int)(((byte)(46)))));
             this.pictureBoxROSA.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxROSA.Image")));
-            this.pictureBoxROSA.Location = new System.Drawing.Point(30, 15);
+            this.pictureBoxROSA.Location = new System.Drawing.Point(32, 15);
             this.pictureBoxROSA.Name = "pictureBoxROSA";
             this.pictureBoxROSA.Size = new System.Drawing.Size(72, 72);
             this.pictureBoxROSA.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -58,7 +58,6 @@ namespace RosaTEST
             this.menuItemExit});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(171, 48);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             this.contextMenuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStrip1_ItemClicked);
             // 
             // menuItemOpenROSAMenu
@@ -86,7 +85,6 @@ namespace RosaTEST
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "ROSA";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.ROSAWidget_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxROSA)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
