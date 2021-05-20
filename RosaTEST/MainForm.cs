@@ -25,8 +25,11 @@ namespace RosaTEST
 
 		static List<WindowObjInfo> wino = new List<WindowObjInfo>();
 
-		ActionMenuForm frmActions;
+		ROSAWidget frmActions;
 		Point frmMenuPosition;
+
+		ROSAEvent rEvent;
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -107,35 +110,23 @@ namespace RosaTEST
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			Rectangle workingArea = Screen.GetWorkingArea(this);
-			this.Location = new Point(workingArea.Right - Size.Width,
-									  workingArea.Bottom - Size.Height);
+			frmActions = new ROSAWidget();
+			frmActions.StartPosition = FormStartPosition.Manual;
 
-			frmMenuPosition = new Point(workingArea.Right - 240,
-									  workingArea.Bottom - (Size.Height + 250));//170 menuform + mainform.height
+			Rectangle workingArea = Screen.GetWorkingArea(this);
+			frmActions.Location = new Point(workingArea.Right - frmActions.Width,
+									  workingArea.Bottom - frmActions.Height);
+
+			frmActions.Owner = this;
+			frmActions.MyParentForm = this;
+			//frmActions.Location = frmMenuPosition;
+
+			frmMenuPosition =new Point(workingArea.Right - (Size.Width + 120),			
+				workingArea.Bottom - (Size.Height + 120));//170 menuform + mainform.height
+
 			WinAPI.UseImmersiveDarkMode(this.Handle, true);
 
-			var dt = new DataTable();
-			dt.Columns.Add("Notifications");
-			for (int j = 0; j < 2; j++)
-			{
-				dt.Rows.Add("");
-			}
-			this.dataGridView1.DataSource = dt;
-			this.dataGridView1.Columns[0].Width = 218;
-			this.dataGridView1.RowTemplate.Height = 80;
-
-			DataGridViewCellStyle style = new DataGridViewCellStyle();
-			style.BackColor = Color.FromArgb(73, 84, 96);
-			style.ForeColor = Color.White;
-
-			var TextBoxCell1 = new DataGridViewTextBoxCell();
-			TextBoxCell1.Style = style;
-			this.dataGridView1[0, 0] = TextBoxCell1;
-			this.dataGridView1[0, 0].Value = "Accession number was detected on the clipboard. [Get Prior Exams]";
-
-			this.AddNotification("Encore My Clipboard");
-
+			
 			/*
 			DataGridViewCellStyle style2 = new DataGridViewCellStyle();
 			style2.BackColor = Color.FromArgb(73, 84, 96);
@@ -147,6 +138,13 @@ namespace RosaTEST
 			this.dataGridView1[0, 1] = TextBoxCell2;
 			this.dataGridView1[0, 1].Value = "Get Prior Studies";
 			*/
+
+			//this.Visible = false;
+			frmActions.Show();
+
+			btnClipMon_Click(null, null);
+
+			
 		}
 
 		private void MainForm_Shown(object sender, EventArgs e)
@@ -157,14 +155,11 @@ namespace RosaTEST
 			//cmbProcs.DisplayMember = "Description";
 			//cmbProcs.EndUpdate();
 
-			frmActions = new ActionMenuForm();
 
-			frmActions.StartPosition = FormStartPosition.Manual;
-			frmActions.Location = frmMenuPosition;
+			//this.Visible = false;
+			//frmActions.Show();
 
-			frmActions.Owner = this;
-			frmActions.Visible = false;
-			
+
 		}
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -244,6 +239,47 @@ namespace RosaTEST
 
 			btnGetUsername.Enabled = (_impaxWh != IntPtr.Zero);
 			btnTakeScreenshot.Enabled = (_impaxWh != IntPtr.Zero);
+		}
+
+		public void ContextMenuClicked(string actionName)
+		{
+			if (actionName == "ShowActionMenu")
+			{
+				this.Visible = true;
+				this.Show();
+
+				var dt = new DataTable();
+				dt.Columns.Add("Notifications");
+				for (int j = 0; j < 2; j++)//only have 3 placeholders for actions
+				{
+					dt.Rows.Add("");
+				}
+				this.dataGridView1.SuspendLayout();
+				this.dataGridView1.DataSource = dt;
+				this.dataGridView1.Columns[0].Width = 218;
+				this.dataGridView1.RowTemplate.Height = 80;
+
+				DataGridViewCellStyle style = new DataGridViewCellStyle();
+				style.BackColor = Color.FromArgb(73, 84, 96);
+				style.ForeColor = Color.White;
+
+				var TextBoxCell1 = new DataGridViewTextBoxCell();
+				TextBoxCell1.Style = style;
+				this.dataGridView1[0, 0] = TextBoxCell1;
+
+				if (!string.IsNullOrEmpty(rEvent.PatientID))
+					this.dataGridView1[0, 0].Value = "LOAD Pat STUDIES";
+
+				if (!string.IsNullOrEmpty(rEvent.StudyUID))
+					this.dataGridView1[0, 0].Value = "LOAD This Study";
+
+				this.AddNotification("GOOGLE My Clipboard");
+
+				this.dataGridView1.ResumeLayout();
+
+
+			}
+
 		}
 
 		#endregion
@@ -331,16 +367,30 @@ namespace RosaTEST
 				//ctlClipboardText.Text = (string)iData.GetData(DataFormats.Text);
 				string clipBoardText = ((string)iData.GetData(DataFormats.Text)).Trim();
 				Debug.WriteLine(clipBoardText);
-				if (IsAccession(clipBoardText))
+				bool isSIMMPat = clipBoardText.StartsWith("siim");
+				bool isSIMStudyID = clipBoardText.StartsWith("a") && (clipBoardText.Length==16);
+				bool isAcc = IsAccession(clipBoardText);
+				if (isAcc || isSIMMPat || isSIMStudyID)
 				{
 
-					var e = new ROSAEvent
+					rEvent = new ROSAEvent
 					{
-						Accession = clipBoardText,
-						EventName = "ClipboardAccession",
+						
+						EventName = "FoundIt!!!",
 						EventSender = "Clipboard"
 					};
-					ShowMenuFrm(e);
+
+					if (isSIMMPat)
+						rEvent.PatientID = clipBoardText;
+
+					if (isSIMStudyID)
+						rEvent.StudyUID = clipBoardText;
+
+					if (isAcc)
+						rEvent.Accession = clipBoardText;
+
+					frmActions.ShowAlert();
+					//ShowMenuFrm(e);
 
 				}
 
@@ -640,11 +690,10 @@ namespace RosaTEST
         #endregion
 
         private void button1_Click(object sender, EventArgs e)
-        {
-			var widget = new ROSAWidget();
-			widget.Show();
-			
+        {			
 			this.Hide();
+			rEvent = null;
+
 		}
 
         private void pictureBox4_Click(object sender, EventArgs e)
@@ -674,12 +723,14 @@ namespace RosaTEST
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 			var cellValue = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-			RemoveNotification(e.RowIndex);
+			//RemoveNotification(e.RowIndex);
+
 			var frmList = new StudyList();
-			frmList.Visible = false;
-			frmList.RenderLoadedData();
+			frmList.SetCurrentContext(rEvent);
 			frmList.Show();
-        }
+			
+			frmList.RenderLoadedData();
+		}
 
 		public void AddNotification(string NotificationText)
         {
@@ -716,7 +767,7 @@ namespace RosaTEST
         }
     }
 
-    public class WindowObjInfo
+	public class WindowObjInfo
 	{
 		public string Wndclass;
 		public string Title;
@@ -733,4 +784,5 @@ namespace RosaTEST
 		public string StudyDate;
 		public string StudyUID;
 	}
+
 }

@@ -13,6 +13,8 @@ namespace RosaTEST
 {
     public partial class StudyList : Form
     {
+        ROSAEvent _ctx;
+
         public StudyList()
         {
             InitializeComponent();
@@ -32,6 +34,11 @@ namespace RosaTEST
             lblPatientDOB.Text = "1992-02-29";
         }
 
+
+        public void SetCurrentContext(ROSAEvent e)
+        {
+            _ctx = e;
+        }
 
         public void RenderLoadedData(DataTable dataFromFHIR = null)
         {
