@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RosaTEST", "RosaTEST\RosaTEST.csproj", "{5DC2FDAC-AA29-4BD1-9C47-A98B45710104}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlFinder", "ControlFinder\ControlFinder.csproj", "{C8CA1D86-4270-438F-8C3C-BC0ECD616A90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControlFinder", "ControlFinder\ControlFinder.csproj", "{C8CA1D86-4270-438F-8C3C-BC0ECD616A90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

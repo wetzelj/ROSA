@@ -9,15 +9,13 @@ using HWND = System.IntPtr;
 
 namespace ControlFinder
 {
-	//public class WindowPointer
- //   {
-	//	string WindowName;
-	//	IntPtr WindowPointer;
-	//	List<WindowPointer> ChildWindows;
+	public class WindowPointer
+    {
+		string WindowName;
+		IntPtr WinPointer;
+		List<WindowPointer> ChildWindows;
 
- //   }
-
-
+    }
 
     public static class Finder
     {
@@ -75,7 +73,6 @@ namespace ControlFinder
             return returnlist;
         }
 
-
         public static HWND GetWindowHandle(string windowname)
         {
             var windows = GetOpenWindows();
@@ -83,33 +80,60 @@ namespace ControlFinder
             return returnpointer;
         }
 
-		//public static WindowPointer GetWindowChildren(HWND pointer)
-  //      {
-
-  //      }
-
-		//public static void ChangeBackgroundColor(HWND pointer)
-  //      {
-		//	///ChangeBackgroundColor of whatever element was passed in. 
-  //      }
-
-
-
-        public static void TestingControls(HWND pointer)
+		public static List<IntPtr> GetWindowChildren(HWND pointer)
         {
+			List<IntPtr> childHandles = new List<IntPtr>();
 
-            var test = GetAllChildrenWindowHandles(pointer, 10000, 0);
-            var test1 = 1;
+			GCHandle gcChildhandlesList = GCHandle.Alloc(childHandles);
+			IntPtr pointerChildHandlesList = GCHandle.ToIntPtr(gcChildhandlesList);
+
+			try
+			{
+				EnumWindowProc childProc = new EnumWindowProc(EnumWindows);
+				EnumChildWindows(pointer, childProc, pointerChildHandlesList);
+			}
+			finally
+			{
+				
+			}
+
+			return childHandles;
+		}
+
+		public static void ChangeBackgroundColor(IntPtr pointer)
+        {
+			///ChangeBackgroundColor of whatever element was passed in. 
         }
 
+		private static bool EnumWindows(IntPtr hWnd, IntPtr lParam)
+		{
+			GCHandle gcChildhandlesList = GCHandle.FromIntPtr(lParam);
 
+			if (gcChildhandlesList == null || gcChildhandlesList.Target == null)
+			{
+				return false;
+			}
 
+			List<IntPtr> childHandles = gcChildhandlesList.Target as List<IntPtr>;
+			if (childHandles != null)
+			{
+				childHandles.Add(hWnd);
+				return true;
+			}
+			else 
+			{
+				return false;
+			}
+		}
+
+		public static void TestingControls(HWND pointer)
+        {
+			//var test = GetAllChildrenWindowHandles(pointer, 10000, 0);
+			var test1 = GetWindowChildren(pointer);
+        }
 
         public static List<IntPtr> GetAllChildrenWindowHandles(IntPtr hParent, int maxCount, int level)
         {
-
-
-
 			IntPtr prevChild = IntPtr.Zero;
 			IntPtr currChild = IntPtr.Zero;
 			while (true)
@@ -137,13 +161,7 @@ namespace ControlFinder
 				GetAllChildrenWindowHandles(currChild, 1000, level++);
 				prevChild = currChild;
 
-				
-
 			}
-
-
-
-
 
 			//List<IntPtr> result = new List<IntPtr>();
    //         int ct = 0;
@@ -176,10 +194,21 @@ namespace ControlFinder
             return null;
         }
 
+		/// <summary>
+		/// Used specifically to find the children of a window.
+		/// </summary>
+		/// <param name="hwnd"></param>
+		/// <param name="lParam"></param>
+		/// <returns></returns>
+		private delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
 
-        private delegate bool EnumWindowsProc(HWND hWnd, int lParam);
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool EnumChildWindows(IntPtr window, EnumWindowProc callback, IntPtr lParam);
 
-        [DllImport("USER32.DLL")]
+		private delegate bool EnumWindowsProc(HWND hWnd, int lParam);
+
+		[DllImport("USER32.DLL")]
         private static extern bool EnumWindows(EnumWindowsProc enumFunc, int lParam);
 
         [DllImport("USER32.DLL")]
