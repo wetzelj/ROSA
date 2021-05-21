@@ -25,7 +25,6 @@ namespace FHIRService.Application.Services.FHIR
             };
         }
  
-
         /// <summary>
         /// Returns a patient record for the specified ID.
         /// </summary>
@@ -33,44 +32,47 @@ namespace FHIRService.Application.Services.FHIR
         /// <returns></returns>
         public Patient GetPatientByID(string ID)
         {
-    
-            var patient = client.SearchById<Patient>(ID);
-            var pat = patient.Entry
-                .Select(p => p.Resource as Patient)
-                .SingleOrDefault();
-
-            //return Mapper.Map<SIIMPatient>(pat);
+            Patient pat = new Patient();
+            if (ID != null)
+            {
+                var patient = client.SearchById<Patient>(ID);
+                pat = patient.Entry
+               .Select(p => p.Resource as Patient)
+               .SingleOrDefault();
+            }
             return pat;
         }
         public ImagingStudy GetImagingStudiesByID(string studyId)
         {
-            //
-
-            var incl = new string[] { "Subject" };
-            var imagingstudy = client.SearchById<ImagingStudy>(studyId, incl, null);
-
+            ImagingStudy study = new ImagingStudy();
+            if (studyId != null)
+            {
+          
+                var incl = new string[] { "Subject" };
+                var imagingstudy = client.SearchById<ImagingStudy>(studyId, incl, null);
             
-            var study = imagingstudy.Entry
-               .Select(s => s.Resource as ImagingStudy)
-               .SingleOrDefault();
-
-
-            //return Mapper.Map<ImgStudy>(study);
+                study = imagingstudy.Entry
+                   .Select(s => s.Resource as ImagingStudy)
+                   .SingleOrDefault();
+            }
+            
             return study;
         }
         public List<ImagingStudy> GetImagingStudiesByPatientID(string patientID)
         {
             //
-
-            var incl = new string[] { "Subject" };
-            var studies = client.Search<ImagingStudy>(
+            List<ImagingStudy> StudyList = new List<ImagingStudy>();
+            if (patientID != null)
+            {
+                var incl = new string[] { "Subject" };
+                var studies = client.Search<ImagingStudy>(
                 new string[] { String.Format("patient={0}", patientID) });
 
-            var StudyList = studies.Entry.Select(s => s.Resource as ImagingStudy)
-                .ToList();
+                StudyList = studies.Entry.Select(s => s.Resource as ImagingStudy)
+                    .ToList();
+            }
 
-            //return Mapper.Map<ImgStudy>(firstStudy);
-           return StudyList;
+            return StudyList;
         }
 
     }

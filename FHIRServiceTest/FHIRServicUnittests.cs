@@ -52,6 +52,29 @@ namespace FHIRService.Tests
                 Assert.IsNotNull(study);
             }
         }
+        [TestMethod]
+        public void Test04_NULLGetPatientByID()
+        {
+            var patient = FHIR.GetPatientByID(null);
+
+            Assert.IsNull(patient.Id);
+            
+        }
+        [TestMethod]
+        public void Test05_NULLGetStudyByID()
+        {
+            var study = FHIR.GetImagingStudiesByID(null);
+
+            Assert.IsNull(study.Id);
+        }
+        [TestMethod]
+        public void Test06_NULLGetImagingStudiesByPatientID()
+
+        {
+            var studies = FHIR.GetImagingStudiesByPatientID(null);
+            Assert.AreEqual("0",studies.Capacity.ToString());
+            
+        }
 
     }
 }
